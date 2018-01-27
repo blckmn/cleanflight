@@ -63,6 +63,25 @@ DEFINE_DMA_IRQ_HANDLER(2, 4, DMA2_CH4_HANDLER)
 DEFINE_DMA_IRQ_HANDLER(2, 5, DMA2_CH5_HANDLER)
 #endif
 
+#define RETURN_TCIF_FLAG(s, d, n) if (s == DMA ## d ## _Channel ## n) return DMA ## d ## _FLAG_TC ## n
+
+uint32_t dmaFlag_IT_TCIF(const DMA_Channel_TypeDef *channel)
+{
+    RETURN_TCIF_FLAG(channel, 1, 1);
+    RETURN_TCIF_FLAG(channel, 1, 2);
+    RETURN_TCIF_FLAG(channel, 1, 3);
+    RETURN_TCIF_FLAG(channel, 1, 4);
+    RETURN_TCIF_FLAG(channel, 1, 5);
+    RETURN_TCIF_FLAG(channel, 1, 6);
+    RETURN_TCIF_FLAG(channel, 1, 7);
+    RETURN_TCIF_FLAG(channel, 2, 1);
+    RETURN_TCIF_FLAG(channel, 2, 2);
+    RETURN_TCIF_FLAG(channel, 2, 3);
+    RETURN_TCIF_FLAG(channel, 2, 4);
+    RETURN_TCIF_FLAG(channel, 2, 5);
+    return 0;
+}
+
 void dmaInit(dmaIdentifier_e identifier, resourceOwner_e owner, uint8_t resourceIndex)
 {
     const int index = identifier-1;
