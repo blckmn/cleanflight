@@ -552,7 +552,10 @@ static bool sdcard_checkInitDone(void)
 void sdcard_init(const sdcardConfig_t *config)
 {
     sdcard.enabled = config->enabled;
-    if (!sdcard.enabled) return;
+    if (!sdcard.enabled) {
+        sdcard.state = SDCARD_STATE_NOT_PRESENT;
+        return;
+    }
 
     sdcard.instance = spiInstanceByDevice(config->device);
 
@@ -664,6 +667,11 @@ static sdcardOperationStatus_e sdcard_endWriteBlocks(void)
  */
 bool sdcard_poll(void)
 {
+    if (!sdcard.enabled) {
+        sdcard.state = SDCARD_STATE_NOT_PRESENT;
+        return false;
+    } 
+
     uint8_t initStatus;
     bool sendComplete;
 
