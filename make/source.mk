@@ -263,67 +263,6 @@ SPEED_OPTIMISED_SRC := $(SPEED_OPTIMISED_SRC) \
             $(CMSIS_SRC) \
             $(DEVICE_STDPERIPH_SRC) \
 
-SIZE_OPTIMISED_SRC := $(SIZE_OPTIMISED_SRC) \
-            bus_bst_stm32f30x.c \
-            drivers/barometer/barometer_bmp085.c \
-            drivers/barometer/barometer_bmp280.c \
-            drivers/barometer/barometer_fake.c \
-            drivers/barometer/barometer_ms5611.c \
-            drivers/barometer/barometer_lps.c \
-            drivers/bus_i2c_config.c \
-            drivers/bus_spi_config.c \
-            drivers/bus_spi_pinconfig.c \
-            drivers/compass/compass_ak8963.c \
-            drivers/compass/compass_ak8975.c \
-            drivers/compass/compass_fake.c \
-            drivers/compass/compass_hmc5883l.c \
-            drivers/display_ug2864hsweg01.c \
-            drivers/inverter.c \
-            drivers/light_ws2811strip.c \
-            drivers/light_ws2811strip_hal.c \
-            drivers/serial_escserial.c \
-            drivers/serial_pinconfig.c \
-            drivers/serial_tcp.c \
-            drivers/serial_uart_init.c \
-            drivers/serial_uart_pinconfig.c \
-            drivers/serial_usb_vcp.c \
-            drivers/transponder_ir.c \
-            drivers/vtx_rtc6705_soft_spi.c \
-            drivers/vtx_rtc6705.c \
-            drivers/vtx_common.c \
-            fc/fc_init.c \
-            config/config_eeprom.c \
-            config/feature.c \
-            config/config_streamer.c \
-            i2c_bst.c \
-            interface/cli.c \
-            interface/settings.c \
-            io/dashboard.c \
-            io/osd.c \
-            io/serial_4way.c \
-            io/serial_4way_avrootloader.c \
-            io/serial_4way_stk500v2.c \
-            io/transponder_ir.c \
-            msp/msp_serial.c \
-            cms/cms.c \
-            cms/cms_menu_blackbox.c \
-            cms/cms_menu_builtin.c \
-            cms/cms_menu_imu.c \
-            cms/cms_menu_ledstrip.c \
-            cms/cms_menu_misc.c \
-            cms/cms_menu_osd.c \
-            cms/cms_menu_vtx_rtc6705.c \
-            cms/cms_menu_vtx_smartaudio.c \
-            cms/cms_menu_vtx_tramp.c \
-            io/vtx_string.c \
-            io/vtx.c \
-            io/vtx_rtc6705.c \
-            io/vtx_smartaudio.c \
-            io/vtx_tramp.c \
-            io/vtx_control.c \
-            io/spektrum_vtx_control.c \
-            pg/pg.h
-
 # F4 and F7 optimizations
 ifneq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
 SPEED_OPTIMISED_SRC := $(SPEED_OPTIMISED_SRC) \
@@ -365,7 +304,7 @@ endif
 SRC += $(COMMON_SRC)
 
 #excludes
-SRC   := $(filter-out ${MCU_EXCLUDES}, $(SRC))
+SRC   := $(filter-out $(MCU_EXCLUDES), $(SRC))
 
 ifneq ($(filter SDCARD,$(FEATURES)),)
 SRC += \
@@ -377,6 +316,10 @@ endif
 
 ifneq ($(filter VCP,$(FEATURES)),)
 SRC += $(VCP_SRC)
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET),$(F1_TARGETS) $(F3_TARGETS)))
+SIZE_OPTIMISED_SRC := $(filter-out $(SPEED_OPTIMIZED), $(SRC))
 endif
 # end target specific make file checks
 

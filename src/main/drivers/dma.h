@@ -160,6 +160,7 @@ typedef enum {
 #define DMA_IT_HTIF         ((uint32_t)0x00000004)
 #define DMA_IT_TEIF         ((uint32_t)0x00000008)
 
+uint32_t dmaFlag_IT_TCIF(const DMA_Channel_TypeDef *channel);
 dmaIdentifier_e dmaGetIdentifier(const DMA_Channel_TypeDef* channel);
 DMA_Channel_TypeDef* dmaGetRefByIdentifier(const dmaIdentifier_e identifier);
 
