@@ -84,7 +84,7 @@ uint32_t dmaFlag_IT_TCIF(const DMA_Channel_TypeDef *channel)
 
 void dmaInit(dmaIdentifier_e identifier, resourceOwner_e owner, uint8_t resourceIndex)
 {
-    const int index = identifier-1;
+    const int index = DMA_IDENTIFIER_TO_INDEX(identifier);
 
     RCC_AHBPeriphClockCmd(dmaDescriptors[index].rcc, ENABLE);
     dmaDescriptors[index].owner = owner;
@@ -96,7 +96,7 @@ void dmaSetHandler(dmaIdentifier_e identifier, dmaCallbackHandlerFuncPtr callbac
     NVIC_InitTypeDef NVIC_InitStructure;
 
 
-    const int index = identifier-1;
+    const int index = DMA_IDENTIFIER_TO_INDEX(identifier);
     /* TODO: remove this - enforce the init */
     RCC_AHBPeriphClockCmd(dmaDescriptors[index].rcc, ENABLE);
     dmaDescriptors[index].irqHandlerCallback = callback;
@@ -111,18 +111,18 @@ void dmaSetHandler(dmaIdentifier_e identifier, dmaCallbackHandlerFuncPtr callbac
 
 resourceOwner_e dmaGetOwner(dmaIdentifier_e identifier)
 {
-    return dmaDescriptors[identifier-1].owner;
+    return dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)].owner;
 }
 
 uint8_t dmaGetResourceIndex(dmaIdentifier_e identifier)
 {
-    return dmaDescriptors[identifier-1].resourceIndex;
+    return dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)].resourceIndex;
 }
 
 dmaIdentifier_e dmaGetIdentifier(const DMA_Channel_TypeDef* channel)
 {
     for (int i = 1; i < DMA_MAX_DESCRIPTORS; i++) {
-        if (dmaDescriptors[i-1].ref == channel) {
+        if (dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(i)].ref == channel) {
             return i;
         }
     }
@@ -131,10 +131,10 @@ dmaIdentifier_e dmaGetIdentifier(const DMA_Channel_TypeDef* channel)
 
 DMA_Channel_TypeDef* dmaGetRefByIdentifier(const dmaIdentifier_e identifier)
 {
-    return dmaDescriptors[identifier-1].ref;
+    return dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)].ref;
 }
 
 dmaChannelDescriptor_t* dmaGetDescriptorByIdentifier(const dmaIdentifier_e identifier)
 {
-    return &dmaDescriptors[identifier-1];
+    return &dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)];
 }

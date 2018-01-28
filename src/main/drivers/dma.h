@@ -45,6 +45,8 @@ typedef struct dmaChannelDescriptor_s {
 
 #endif
 
+#define DMA_IDENTIFIER_TO_INDEX(x) (x - 1)
+
 #if defined(STM32F4) || defined(STM32F7)
 
 uint32_t dmaFlag_IT_TCIF(const DMA_Stream_TypeDef *stream);

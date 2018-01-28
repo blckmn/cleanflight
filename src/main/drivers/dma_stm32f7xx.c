@@ -82,7 +82,7 @@ static void enableDmaClock(uint32_t rcc)
 
 void dmaInit(dmaIdentifier_e identifier, resourceOwner_e owner, uint8_t resourceIndex)
 {
-    const int index = identifier-1;
+    const int index = DMA_IDENTIFIER_TO_INDEX(identifier);
 
     enableDmaClock(dmaDescriptors[index].rcc);
     dmaDescriptors[index].owner = owner;
@@ -91,7 +91,7 @@ void dmaInit(dmaIdentifier_e identifier, resourceOwner_e owner, uint8_t resource
 
 void dmaSetHandler(dmaIdentifier_e identifier, dmaCallbackHandlerFuncPtr callback, uint32_t priority, uint32_t userParam)
 {
-    const int index = identifier-1;
+    const int index = DMA_IDENTIFIER_TO_INDEX(identifier);
 
     enableDmaClock(dmaDescriptors[index].rcc);
     dmaDescriptors[index].irqHandlerCallback = callback;
@@ -103,18 +103,18 @@ void dmaSetHandler(dmaIdentifier_e identifier, dmaCallbackHandlerFuncPtr callbac
 
 resourceOwner_e dmaGetOwner(dmaIdentifier_e identifier)
 {
-    return dmaDescriptors[identifier-1].owner;
+    return dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)].owner;
 }
 
 uint8_t dmaGetResourceIndex(dmaIdentifier_e identifier)
 {
-    return dmaDescriptors[identifier-1].resourceIndex;
+    return dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)].resourceIndex;
 }
 
 dmaIdentifier_e dmaGetIdentifier(const DMA_Stream_TypeDef* stream)
 {
     for (int i = 1; i < DMA_MAX_DESCRIPTORS; i++) {
-        if (dmaDescriptors[i-1].ref == stream) {
+        if (dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(i)].ref == stream) {
             return i;
         }
     }
@@ -123,12 +123,12 @@ dmaIdentifier_e dmaGetIdentifier(const DMA_Stream_TypeDef* stream)
 
 DMA_Stream_TypeDef* dmaGetRefByIdentifier(const dmaIdentifier_e identifier)
 {
-    return dmaDescriptors[identifier-1].ref;
+    return dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)].ref;
 }
 
 dmaChannelDescriptor_t* dmaGetDescriptorByIdentifier(const dmaIdentifier_e identifier)
 {
-    return &dmaDescriptors[identifier-1];
+    return &dmaDescriptors[DMA_IDENTIFIER_TO_INDEX(identifier)];
 }
 
 uint32_t dmaGetChannel(const uint8_t channel)
