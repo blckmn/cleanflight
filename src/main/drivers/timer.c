@@ -558,6 +558,8 @@ void timerChICPolarity(const timerHardware_t *timHw, bool polarityRising)
     timHw->tim->CCER = tmpccer;
 }
 
+// XXX timerChCCRHi and timerChCCRLo not used?
+#if 0
 volatile timCCR_t* timerChCCRHi(const timerHardware_t *timHw)
 {
     return (volatile timCCR_t*)((volatile char*)&timHw->tim->CCR1 + (timHw->channel | TIM_Channel_2));
@@ -567,10 +569,11 @@ volatile timCCR_t* timerChCCRLo(const timerHardware_t *timHw)
 {
     return (volatile timCCR_t*)((volatile char*)&timHw->tim->CCR1 + (timHw->channel & ~TIM_Channel_2));
 }
+#endif
 
 volatile timCCR_t* timerChCCR(const timerHardware_t *timHw)
 {
-    return (volatile timCCR_t*)((volatile char*)&timHw->tim->CCR1 + timHw->channel);
+    return (volatile timCCR_t*)(&timHw->tim->CCR1 + timHw->channel);
 }
 
 void timerChConfigOC(const timerHardware_t* timHw, bool outEnable, bool stateHigh)

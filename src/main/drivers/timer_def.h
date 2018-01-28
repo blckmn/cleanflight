@@ -734,6 +734,8 @@ typedef uint8_t timerTag_t;
 #if defined(STM32F7) || defined(STM32F4)
 #define TIM5_CH1        DEF_TIM_CH(5, 1)
 #define TIM5_CH2        DEF_TIM_CH(5, 2)
+#define TIM5_CH3        DEF_TIM_CH(5, 3)
+#define TIM5_CH4        DEF_TIM_CH(5, 4)
 #endif
 
 #if defined(STM32F7) || defined(STM32F4) || defined(STM32F3)
@@ -774,7 +776,7 @@ typedef uint8_t timerTag_t;
     TIM2_CH1, TIM2_CH2, TIM2_CH3, TIM2_CH4, \
     TIM3_CH1, TIM3_CH2, TIM3_CH3, TIM3_CH4, \
     TIM4_CH1, TIM4_CH2, TIM4_CH3, TIM4_CH4, \
-    TIM5_CH1, TIM5_CH2, \
+    TIM5_CH1, TIM5_CH2, TIM5_CH3, TIM5_CH4, \
     TIM6_CH0, \
     TIM7_CH0, \
     TIM8_CH1, TIM8_CH2, TIM8_CH3, TIM8_CH4, \
