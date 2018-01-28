@@ -3468,10 +3468,10 @@ static void printTimer(uint8_t dumpMask)
     cliPrint("#");
 #if defined(STM32F7) || defined(STM32F4)
     const char *dmaFormat = "DMA%d_ST%d CH%d";
-    cliPrintLinef(format, 1, 1, "", 'A', 1, 1, "DMA1_ST1 CH1 (or NONE)");
+    cliPrintLinef(format, 1, 1, "", 'A', 1, "DMA1_ST1 CH1 (or NONE)");
 #elif defined(STM32F3)
     const char *dmaFormat = "DMA%d_CH%d";
-    cliPrintLinef(format, 1, 1, "", 'A', 1, 1, "DMA1_CH1 (or NONE)");
+    cliPrintLinef(format, 1, 1, "", 'A', 1, "DMA1_CH1 (or NONE)");
 #else
 #error "No format specified for this CPU for outputting timer values"
 #endif
